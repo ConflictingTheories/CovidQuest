@@ -53,7 +53,7 @@ app.use(cookieParser());
 // Public Directory
 app.use(express.static(path.join(__dirname, 'public')));
 // Compression
-app.use(compression);
+// app.use(compression);
 
 // ---- API ROUTES
 //
