@@ -15,7 +15,9 @@ import {
   StyleSheet,
   PixelRatio,
   TouchableHighlight,
+  TextInput,
 } from 'react-native';
+import { styles } from "../../style";
 
 import io from "socket.io-client";
 
@@ -49,6 +51,7 @@ export default class Chat extends Component {
   }
 
   submitChatMessage() {
+    console.log("Sending...",this.state.chatMessage);
     this.socket.emit('chat message', this.state.chatMessage);
     this.setState({chatMessage: ''});
   }
@@ -59,6 +62,7 @@ export default class Chat extends Component {
       <Text style={{borderWidth: 2, top: 500}}>{chatMessage}</Text>
     ));
 
+    console.log(this.state.chatMessages)
     return (
       <View style={styles.container}>
         {chatMessages}
@@ -73,73 +77,6 @@ export default class Chat extends Component {
         />
       </View>);
   }
-
-  // This function returns an anonymous/lambda function to be used
-  // by the experience selector buttons
-  _getExperienceButtonOnPress(levelSelect) {
-    return () => {
-      this.setState({
-        levelSelect : levelSelect
-      })
-    }
-  }
-
 }
-
-var localStyles = StyleSheet.create({
-  container: {
-    height: 400,
-    flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
-  outer : {
-    flex : 1,
-    flexDirection: 'row',
-    alignItems:'center',
-    backgroundColor: "black",
-  },
-  inner: {
-    flex : 1,
-    flexDirection: 'column',
-    alignItems:'center',
-    backgroundColor: "black",
-  },
-  titleText: {
-    paddingTop: 30,
-    paddingBottom: 20,
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 25
-  },
-  buttonText: {
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 20
-  },
-  buttons : {
-    height: 80,
-    width: 150,
-    paddingTop:20,
-    paddingBottom:20,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  exitButton : {
-    height: 50,
-    width: 100,
-    paddingTop:10,
-    paddingBottom:10,
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor:'#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-  }
-});
 
 module.exports = Chat
