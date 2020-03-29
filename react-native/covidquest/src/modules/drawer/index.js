@@ -38,8 +38,16 @@ class HomeDrawer extends React.Component {
         </View>
         <View style={{ borderBottomColor: "white", borderBottomWidth: 0.5 }} />
         <Button
-        title="Go to ARG"
+        title="Go to Chat"
+        onPress={() => navigate('Chat')}
+      />
+         <Button
+        title="Go to Quests"
         onPress={() => navigate('Arg')}
+      />
+         <Button
+        title="Go to Profile"
+        onPress={() => navigate('Profile')}
       />
       </View>
       </SafeAreaView>

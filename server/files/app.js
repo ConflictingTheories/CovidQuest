@@ -35,9 +35,9 @@ var log = require('./routes/log');
 
 // ---- APP SERVER
 //
-var app = express();
+const app = express();
 
-// ---- CONFIGURATION
+// ---- RESTFUL CONFIGURATION
 //
 // view engine setup (EJS --- .html)
 app.set('views', path.join(__dirname, 'views'));
