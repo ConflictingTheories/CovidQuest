@@ -13,29 +13,23 @@
 
 
 /* ------------------------------ *\
-//      LIVE DATA API ROUTER      \\
+//        QUEST API ROUTER         \\
 \* ------------------------------ */
 
 var express = require('express');
 var router = express.Router();
 
-// Miner Libraries
-var request = require('request-promise');
-var htmlParser = require('htmlparser2');
-
-// Custom Libraries
-var DB = require('../lib/Database.lib.js');
-var P = require('../lib/Patterns.lib');
-
-// ---- ROUTES
-//
-// Listing
+/* GET quest listing. */
 router.get('/', function(req, res, next) {
-    res.send('<b>GET</b>: /???????');
+    res.send('respond with a resource');
+});
+// get All Quests
+router.get('/all', function(req, res, next) {
+    res.send('<b>Sorry , not here :)<br>');
 });
 
-// False
-router.get('/secret', function(req, res, next) {
+// get Quests
+router.get('/query', function(req, res, next) {
     res.send('<b>Sorry , not here :)<br>');
 });
 

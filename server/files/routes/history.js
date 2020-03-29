@@ -26,17 +26,15 @@ var P = require('../lib/Patterns.lib');
 
 /* GET History listing. */
 router.get('/', function(req, res, next) {
-    res.send('<b>GET</b>: /at/:year/:month/:day/:hour/:min<br> ');
+    res.send('<b>GET</b>: /at/:year/:month/:day<br> ');
 });
 
 /* GET Date listing. */
-router.get('/at/:year/:month/:day/:hour/:min', function(req, res, next) {
+router.get('/at/:year/:month/:day', function(req, res, next) {
     let year = req.param('year');
     let month = req.param('month');
     let day = req.param('day');
-    let hour = req.param('hour');
-    let min = req.param('min');
-    let search = new Date("" + year + "/" + month + "/" + day + " " + hour + ":" + min).getTime();
+    let search = new Date("" + year + "/" + month + "/" + day).getTime();
     let searchQuery = "SELECT * FROM history WHERE timestamp ='" + search + "'";
     console.log(searchQuery);
     DB.query(searchQuery)
@@ -59,12 +57,6 @@ router.get('/at/:year/:month/:day/:hour/:min', function(req, res, next) {
                 err: err
             });
         });
-});
-
-
-// False
-router.get('/secret', function(req, res, next) {
-    res.send('<b>Sorry , not here :)<br>');
 });
 
 module.exports = router;

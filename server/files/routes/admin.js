@@ -54,9 +54,5 @@ router.get('/access/revoke', function(req, res, next) {
         res.json({ status: 500, msg: "Error", error: e });
     }
 });
-// False
-router.get('/secret', function(req, res, next) {
-    res.send('<b>Sorry , not here :)<br>');
-});
 
 module.exports = router;

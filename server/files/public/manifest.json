@@ -1,0 +1,16 @@
+{
+  "name": "CovidQuest",
+  "short_name": "CovidQuest",
+  "description": "Community Engagment Tool to combat the Covid-19 challenges",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "darkslateblue",
+  "background_color": "darkslateblue",
+  "icons": [
+    {
+      "src": "images/bioalpha.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

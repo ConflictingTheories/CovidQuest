@@ -1,0 +1,14 @@
+{
+  "/": {
+    "javascripts/covid-min.min.js": {
+      "crossorigin": "anonymous",
+      "type": "script",
+      "weight": 1
+    },
+    "javascripts/covid-pack.min.js": {
+      "crossorigin": "anonymous",
+      "type": "script",
+      "weight": 1
+    }
+  }
+}

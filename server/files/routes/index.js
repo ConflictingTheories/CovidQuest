@@ -57,16 +57,4 @@ router.get('/', function(req, res, next) {
     });
 });
 
-/* GET home page. */
-router.get('/game', function(req, res, next) {
-    res.render('game', {
-        title: 'CovidQuest : Game'
-    });
-});
-
-// False
-router.get('/secret', function(req, res, next) {
-    res.send('<b>Nice Try - Dig Deeper :)<br>');
-});
-
 module.exports = router;

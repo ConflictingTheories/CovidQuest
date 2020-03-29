@@ -27,11 +27,8 @@ var compression = require('compression');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var history = require('./routes/history');
-var present = require('./routes/present');
 var admin = require('./routes/admin');
-var spy = require('./routes/spy');
-var location = require('./routes/location');
-var log = require('./routes/log');
+var quests = require('./routes/quests');
 
 // ---- APP SERVER
 //
@@ -44,7 +41,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 // Favicon (Needs one)
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Logging
 app.use(logger('dev'));
 // Parsing (JSON)
@@ -56,7 +53,7 @@ app.use(cookieParser());
 // Public Directory
 app.use(express.static(path.join(__dirname, 'public')));
 // Compression
-// app.use(compression);
+app.use(compression);
 
 // ---- API ROUTES
 //
@@ -64,19 +61,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 // Admin API Calls (Protected)
 app.use('/admin', admin);
-// Spy API Calls (Protected)
-app.use('/spy', spy);
-// Logger API Calls (Protected)
-app.use('/log', log);
 // Account API Calls
 app.use('/users', users);
-// Location API Calls
-app.use('/location', location);
 // Historical Data API Calls
 app.use('/history', history);
 // Live Data API Calls
-app.use('/present', present);
-
+app.use('/quests', quests);
 
 // ---- ERROR HANDLING
 //
