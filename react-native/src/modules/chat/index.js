@@ -1,12 +1,3 @@
-/**
- * Copyright (c) 2017-present, Viro, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -27,25 +18,25 @@ import io from "socket.io-client";
 
 export default class Chat extends Component {
   constructor(props) {
-   
+
     super(props);
     this.state = {
-       chatMessage: "",
-       chatMessages: [],
-       deviceId: '',
-       userId: 0,
-       messageId: 0,
-       name: '',
-       avatar: 'https://covid-19.kderbyma.com/images/bioalpha.png'     
+      chatMessage: "",
+      chatMessages: [],
+      deviceId: '',
+      userId: 0,
+      messageId: 0,
+      name: '',
+      avatar: 'https://covid-19.kderbyma.com/images/bioalpha.png'
     };
- 
+
     this._getExperienceSelector = this._displayChat.bind(this);
   }
 
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
-      messages: [
+      chatMessages: [
         {
           _id: 1,
           text: 'Hello Citizen - Welcome to CovidQuest. Please make yourself at home. Some other may be on here.',
@@ -58,38 +49,35 @@ export default class Chat extends Component {
         },
       ],
       deviceId: DeviceInfo.getUniqueId(),
-      userId: Math.round(Math.random()*100000000 % 100000000)
+      userId: Math.round(Math.random() * 100000000 % 100000000)
     })
-    
+
     this.socket = io("http://covid-19.kderbyma.com:3000");
     this.socket.on("chat message", msg => {
-          this.setState({ chatMessages: [...this.state.chatMessages, msg]   
-     });
-  });
+      this.setState({
+        chatMessages: [...this.state.chatMessages, msg]
+      });
+    });
   }
-  
-  onSend(messages = []) {
 
-    messages.map((x)=>{
-      console.log("Sending...",x);
+  onSend(messages = []) {
+    messages.map((x) => {
+      console.log("Sending...", x);
       this.socket.emit('chat message', x);
     });
-    
+
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }))
   }
 
-  // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
-  // if you are building a specific type of experience.
   render() {
-      return this._displayChat();
+    return this._displayChat();
   }
 
-  // Presents the user with a choice of an AR or VR experience
   _displayChat() {
     const chatMessages = this.state.chatMessages.map(chatMessage => (
-      <Text style={{borderWidth: 2, top: 500}}>{chatMessage}</Text>
+      <Text style={{ borderWidth: 2, top: 500 }}>{chatMessage}</Text>
     ));
 
     return (
@@ -109,50 +97,50 @@ var localStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
-  outer : {
-    flex : 1,
+  outer: {
+    flex: 1,
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
     backgroundColor: "black",
   },
   inner: {
-    flex : 1,
+    flex: 1,
     flexDirection: 'column',
-    alignItems:'center',
+    alignItems: 'center',
     backgroundColor: "black",
   },
   titleText: {
     paddingTop: 30,
     paddingBottom: 20,
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 25
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 25
   },
   buttonText: {
-    color:'#fff',
-    textAlign:'center',
-    fontSize : 20
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20
   },
-  buttons : {
+  buttons: {
     height: 80,
     width: 150,
-    paddingTop:20,
-    paddingBottom:20,
+    paddingTop: 20,
+    paddingBottom: 20,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor:'#68a0cf',
+    backgroundColor: '#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#fff',
   },
-  exitButton : {
+  exitButton: {
     height: 50,
     width: 100,
-    paddingTop:10,
-    paddingBottom:10,
+    paddingTop: 10,
+    paddingBottom: 10,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor:'#68a0cf',
+    backgroundColor: '#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#fff',

@@ -19,9 +19,6 @@ import {
 
 const degree_update_rate = 3; // Number of degrees changed before the callback is triggered
 
-/**
- * Set all the image and asset references required in this scene.
- */
 var buttonSize = 0.25;
 var VIDEO_REF = "videoref";
 var VideoControlRef = "VideoControlRef";
@@ -180,10 +177,6 @@ export default class Level1 extends Component {
     });
   }
   
-  /**
-   * Render a set of Video UI Controls. This includes (in the order displayed from left to right):
-   * Restart, Previous Video, Play/Pause, Next Video, Volume.
-   */
   _renderVideoControl(){
     return(
         <ViroNode position={[0,-0.8,0]} opacity={1.0}
@@ -238,9 +231,6 @@ export default class Level1 extends Component {
     );
   }
 
-  /**
-   * Renders either the play or pause icon depending on video state.
-   */
   _renderPlayControl(){
     if (this.state.videoPaused){
       return (
@@ -271,17 +261,15 @@ export default class Level1 extends Component {
 
   _launchTheatreScene(){
   }
+
   _togglePauseVideo() {
     this.setState({
       videoPaused: !this.state.videoPaused,
     })
   }
 
-  /**
-   * Play the previous video by setting the videoIndex.
-   */
   _playPreviousVideo(){
-    var currentVideo = this.state.videoIndex;
+    var currentVideo = this.state.videoIndex || 0;
     if (currentVideo - 1 > -1){
       this.setState({
         videoIndex: (currentVideo - 1),
@@ -290,11 +278,8 @@ export default class Level1 extends Component {
     }
   }
 
-  /**
-   * Play the next video by setting the videoIndex.
-   */
   _playNextVideo(){
-    var currentVideo = this.state.videoIndex;
+    var currentVideo = this.state.videoIndex || 0;
     if (currentVideo + 1 < videos.length){
       this.setState({
         videoIndex: (currentVideo + 1),
@@ -307,20 +292,6 @@ export default class Level1 extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        {/* <ViroARImageMarker target={"targetOne"} >
-          <ViroText text={this.state.latitude.toFixed(4)} scale={[0, 0.5, -1]} position={[0, 0, 0.1]} style={localStyles.helloWorldTextStyle} />
-          <ViroText text={this.state.longitude.toFixed(4)} scale={[0, 0, -1]} position={[0, 0, 0.1]} style={localStyles.helloWorldTextStyle} />
-        </ViroARImageMarker> */}
-        {/* <ViroFlexView style={{ flexDirection: 'row', padding: .1 }}
-          width={5.0} height={5.0}
-          position={[-5.0, 0.0, -2.0]}
-          rotation={[0, 45, 0]} >
-          <ViroImage source={require('../../../assets/guadalupe_360.jpg')} style={{ flex: .5 }} />
-          <ViroImage source={require('../../../assets/guadalupe_360.jpg')} style={{ flex: .5 }} />
-        </ViroFlexView> */}
-
-        {/* <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={localStyles.helloWorldTextStyle} /> */}
-        {/* <ViroText text={JSON.stringify(this.state.pos)} scale={[0.5, 0.5, 0.5]} position={[0, 4, -1]} style={localStyles.helloWorldTextStyle} /> */}
         <ViroVideo ref={VIDEO_REF} source={videos[this.state.videoIndex]} volume={1.0}
             position={[0, 3.9, -45]} scale={[44, 22, 1]} loop={this.state.loopVideo}
             paused={this.state.videoPaused} />
@@ -369,8 +340,6 @@ export default class Level1 extends Component {
       .then(res => { console.log('HeadAngle', res), this.setState({ headAngle: res }) })
     var objPoint = this._latLongToMerc(lat, long);
     var devicePoint = this._latLongToMerc(this.state.latitude, this.state.longitude);
-    // latitude(north,south) maps to the z axis in AR
-    // longitude(east, west) maps to the x axis in AR
     var objFinalPosZ = (objPoint.y - devicePoint.y);
     var objFinalPosX = (objPoint.x - devicePoint.x);
     //flip the z, as negative z(is in front of us which is north, pos z is behind(south).
@@ -378,7 +347,6 @@ export default class Level1 extends Component {
   }
 
 }
-
 
 ViroAnimations.registerAnimations({
   fadeOut:{properties:{opacity: 0.0}, duration: 500},

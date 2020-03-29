@@ -5,7 +5,7 @@
  * Pull in all imports required for the controls within this scene.
  */
 import React, { Component } from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import {
   AppRegistry,
@@ -42,7 +42,7 @@ var videos = [
 var Viro360Theatre = createReactClass({
   getInitialState() {
     return {
-      videoControlsAnimation:"fadeIn",
+      videoControlsAnimation: "fadeIn",
       videoPaused: false,
       loopVideo: true,
       videoIndex: 0,
@@ -53,28 +53,28 @@ var Viro360Theatre = createReactClass({
   /**
    * Renders a scene that contains a 360 video and Video Controls.
    */
-  render: function() {
+  render: function () {
     return (
-        <ViroScene onClick={this._onVideoTapped} reticleEnabled={this.state.videoControlsAnimation=="fadeIn"}>
-          <Viro360Video ref={VIDEO_REF} source={videos[this.state.videoIndex]} volume={1.0}
-            loop={this.state.loopVideo} paused={this.state.videoPaused} />
+      <ViroScene onClick={this._onVideoTapped} reticleEnabled={this.state.videoControlsAnimation == "fadeIn"}>
+        <Viro360Video ref={VIDEO_REF} source={videos[this.state.videoIndex]} volume={1.0}
+          loop={this.state.loopVideo} paused={this.state.videoPaused} />
 
-          {this._renderVideoControl()}
+        {this._renderVideoControl()}
 
-        </ViroScene>
+      </ViroScene>
     );
   },
 
-  _onVideoTapped(){
+  _onVideoTapped() {
     var videoControlsAnimationState = this.state.videoControlsAnimation;
-    if (videoControlsAnimationState=="fadeIn"){
-      videoControlsAnimationState="fadeOut";
+    if (videoControlsAnimationState == "fadeIn") {
+      videoControlsAnimationState = "fadeOut";
     } else {
-      videoControlsAnimationState="fadeIn";
+      videoControlsAnimationState = "fadeIn";
     }
 
     this.setState({
-      videoControlsAnimation:videoControlsAnimationState,
+      videoControlsAnimation: videoControlsAnimationState,
       runAnimation: true,
     });
   },
@@ -82,18 +82,18 @@ var Viro360Theatre = createReactClass({
    * Render a set of Video UI Controls. This includes (in the order displayed from left to right):
    * Restart, Previous Video, Play/Pause, Next Video, Volume.
    */
-  _renderVideoControl(){
-    return(
-      <ViroNode position={[0,-0.8,0]} opacity={1.0}
-        animation={{name : this.state.videoControlsAnimation, run : this.state.runAnimation, loop : false}} >
+  _renderVideoControl() {
+    return (
+      <ViroNode position={[0, -0.8, 0]} opacity={1.0}
+        animation={{ name: this.state.videoControlsAnimation, run: this.state.runAnimation, loop: false }} >
 
         <ViroImage
           scale={[1.4, 1.2, 1]}
-          position={[0, -0.27,-2.1]}
+          position={[0, -0.27, -2.1]}
           source={require("./res/player_controls_container.png")} />
 
         <ViroButton
-          position={[-buttonSize-0.1,0,-2]}
+          position={[-buttonSize - 0.1, 0, -2]}
           scale={[1, 1, 1]}
           width={buttonSize}
           height={buttonSize}
@@ -105,7 +105,7 @@ var Viro360Theatre = createReactClass({
         {this._renderPlayControl()}
 
         <ViroButton
-          position={[buttonSize+0.1, 0,-2]}
+          position={[buttonSize + 0.1, 0, -2]}
           scale={[1, 1, 1]}
           width={buttonSize}
           height={buttonSize}
@@ -115,7 +115,7 @@ var Viro360Theatre = createReactClass({
           onClick={this._playNextVideo} />
 
         <ViroButton
-          position={[-0.3, -0.4 ,-2]}
+          position={[-0.3, -0.4, -2]}
           scale={[1, 1, 1]}
           width={0.5}
           height={0.5}
@@ -125,7 +125,7 @@ var Viro360Theatre = createReactClass({
           onClick={this._launchTheatreScene} />
 
         <ViroButton
-          position={[0.3, -0.4 ,-2]}
+          position={[0.3, -0.4, -2]}
           scale={[1, 1, 1]}
           width={0.5}
           height={0.5}
@@ -140,38 +140,38 @@ var Viro360Theatre = createReactClass({
   /**
    * Renders either the play or pause icon depending on video state.
    */
-  _renderPlayControl(){
-    if (this.state.videoPaused){
+  _renderPlayControl() {
+    if (this.state.videoPaused) {
       return (
-          <ViroButton
-              position={[0,0,-2]}
-              scale={[1, 1, 1]}
-              width={buttonSize}
-              height={buttonSize}
-              source={require("./res/play.png")}
-              hoverSource={require("./res/play_hover.png")}
-              clickSource={require("./res/play_hover.png")}
-              transformBehaviors={["billboard"]}
-              onClick={this._togglePauseVideo}/>
+        <ViroButton
+          position={[0, 0, -2]}
+          scale={[1, 1, 1]}
+          width={buttonSize}
+          height={buttonSize}
+          source={require("./res/play.png")}
+          hoverSource={require("./res/play_hover.png")}
+          clickSource={require("./res/play_hover.png")}
+          transformBehaviors={["billboard"]}
+          onClick={this._togglePauseVideo} />
       );
     } else {
       return (
-          <ViroButton
-              position={[0,0,-2]}
-              scale={[1, 1, 1]}
-              width={buttonSize}
-              height={buttonSize}
-              source={require("./res/pause.png")}
-              hoverSource={require("./res/pause_hover.png")}
-              clickSource={require("./res/pause_hover.png")}
-              transformBehaviors={["billboard"]}
-              onClick={this._togglePauseVideo}/>
+        <ViroButton
+          position={[0, 0, -2]}
+          scale={[1, 1, 1]}
+          width={buttonSize}
+          height={buttonSize}
+          source={require("./res/pause.png")}
+          hoverSource={require("./res/pause_hover.png")}
+          clickSource={require("./res/pause_hover.png")}
+          transformBehaviors={["billboard"]}
+          onClick={this._togglePauseVideo} />
       );
     }
   },
 
-  _launchTheatreScene(){
-    this.props.sceneNavigator.jump("ViroTheatre", {scene:require('./index')});
+  _launchTheatreScene() {
+    this.props.sceneNavigator.jump("ViroTheatre", { scene: require('./index') });
   },
   _togglePauseVideo() {
     this.setState({
@@ -182,9 +182,9 @@ var Viro360Theatre = createReactClass({
   /**
    * Play the previous video by setting the videoIndex.
    */
-  _playPreviousVideo(){
+  _playPreviousVideo() {
     var currentVideo = this.state.videoIndex;
-    if (currentVideo - 1 > -1){
+    if (currentVideo - 1 > -1) {
       this.setState({
         videoIndex: (currentVideo - 1),
         videoPaused: false
@@ -195,9 +195,9 @@ var Viro360Theatre = createReactClass({
   /**
    * Play the next video by setting the videoIndex.
    */
-  _playNextVideo(){
+  _playNextVideo() {
     var currentVideo = this.state.videoIndex;
-    if (currentVideo + 1 < videos.length){
+    if (currentVideo + 1 < videos.length) {
       this.setState({
         videoIndex: (currentVideo + 1),
         videoPaused: false
@@ -208,8 +208,8 @@ var Viro360Theatre = createReactClass({
 });
 
 ViroAnimations.registerAnimations({
-  fadeOut:{properties:{opacity: 0.0}, duration: 500},
-  fadeIn:{properties:{opacity: 1.0}, duration: 500},
+  fadeOut: { properties: { opacity: 0.0 }, duration: 500 },
+  fadeIn: { properties: { opacity: 1.0 }, duration: 500 },
 });
 
 module.exports = Viro360Theatre;

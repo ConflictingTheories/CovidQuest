@@ -9,23 +9,23 @@ export default class Page extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-      <View
-        style={{
-          backgroundColor: "#333",
-          flex: 1,
-          height: "100%",
-          alignItems: "center",
-          flexDirection: "column"
-        }}
-      >
-        <Text style={{ marginTop: "50%", fontSize: 30, fontWeight: "800", color:"#FFF" }}>
-          CovidQuest
+        <View
+          style={{
+            backgroundColor: "#333",
+            flex: 1,
+            height: "100%",
+            alignItems: "center",
+            flexDirection: "column"
+          }}
+        >
+          <Text style={{ marginTop: "50%", fontSize: 30, fontWeight: "800", color: "#FFF" }}>
+            CovidQuest
         </Text>
-        <Image
-          style={{ width: 90, height: 90, marginTop: 25 }}
-          source={require("../../assets/bioalpha.png")}
-        />
-      </View>
+          <Image
+            style={{ width: 90, height: 90, marginTop: 25 }}
+            source={require("../../assets/bioalpha.png")}
+          />
+        </View>
       </SafeAreaView>
     );
   }

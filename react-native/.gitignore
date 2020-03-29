@@ -58,3 +58,5 @@ buck-out/
 *.android.bundle
 
 ios/Pods
+
+**/keystore

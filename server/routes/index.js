@@ -22,7 +22,7 @@ var router = express.Router();
 var DB = require('../lib/Database.lib');
 
 /* POST home page. */
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
     let params = req.body;
     let access_code = params.access_code;
     let code_name = params.code_name;
@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
     res.render('index', {
         title: 'CovidQuest : Login',
         message: ''

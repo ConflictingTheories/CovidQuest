@@ -12,7 +12,7 @@ import Splash from '../modules/splashScreen'
 
 const AppNavigator = createStackNavigator(
   {
-    Splash:{screen:Splash},
+    Splash: { screen: Splash },
     // Map: { screen: Map },
     DrawerNav: { screen: DrawerNav }
   },
