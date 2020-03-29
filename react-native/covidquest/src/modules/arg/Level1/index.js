@@ -6,17 +6,33 @@ import RNSimpleCompass from 'react-native-simple-compass';
 import ReactNativeHeading from 'react-native-heading';
 import {
   ViroARScene,
-  ViroText,
+  ViroVideo,
   ViroConstants,
   ViroARTrackingTargets,
-  ViroARImageMarker,
-  ViroBox,
-  ViroFlexView,
+  ViroAnimations,
+  ViroMaterials,
+  ViroNode,
+  ViroButton,
   ViroImage,
 } from 'react-viro';
 
 
 const degree_update_rate = 3; // Number of degrees changed before the callback is triggered
+
+/**
+ * Set all the image and asset references required in this scene.
+ */
+var buttonSize = 0.25;
+var VIDEO_REF = "videoref";
+var VideoControlRef = "VideoControlRef";
+
+var videos = [
+  require('../../../assets/videos/what-is-c19.mp4'),
+  require('../../../assets/videos/handwashing.mp4'),
+  require('../../../assets/videos/social-distancing.mp4'),
+  require('../../../assets/videos/c19-been-exposed.mp4'),
+  require('../../../assets/videos/c19-if-you-have-it.mp4')
+];
 
 export default class Level1 extends Component {
 
@@ -36,6 +52,9 @@ export default class Level1 extends Component {
         longitude: 0,
         longitudeDelta: 0.0121
       },
+      videoPaused: false,
+      videoIndex: 0,
+      loopVideo: false,
       error: null,
       pos: {
         x: 0,
@@ -147,23 +166,167 @@ export default class Level1 extends Component {
     });
   }
 
+  _onVideoTapped(){
+    var videoControlsAnimationState = this.state.videoControlsAnimation;
+    if (videoControlsAnimationState=="fadeIn"){
+      videoControlsAnimationState="fadeOut";
+    } else {
+      videoControlsAnimationState="fadeIn";
+    }
+
+    this.setState({
+      videoControlsAnimation:videoControlsAnimationState,
+      runAnimation:true,
+    });
+  }
+  
+  /**
+   * Render a set of Video UI Controls. This includes (in the order displayed from left to right):
+   * Restart, Previous Video, Play/Pause, Next Video, Volume.
+   */
+  _renderVideoControl(){
+    return(
+        <ViroNode position={[0,-0.8,0]} opacity={1.0}
+          animation={{ name : this.state.videoControlsAnimation, run : this.state.runAnimation, loop : false}} >
+          <ViroImage
+            scale={[1.4, 1.2, 1]}
+            position={[0, -0.27,-2.1]}
+            source={require("./res/player_controls_container.png")} />
+
+          <ViroButton
+            position={[-buttonSize-0.1,0,-2]}
+            scale={[1, 1, 1]}
+            width={buttonSize}
+            height={buttonSize}
+            source={require("./res/previous.png")}
+            hoverSource={require("./res/previous_hover.png")}
+            clickSource={require("./res/previous_hover.png")}
+            onClick={this._playPreviousVideo} />
+
+          {this._renderPlayControl()}
+
+          <ViroButton
+            position={[buttonSize+0.1, 0,-2]}
+            scale={[1, 1, 1]}
+            width={buttonSize}
+            height={buttonSize}
+            source={require("./res/skip.png")}
+            hoverSource={require("./res/skip_hover.png")}
+            clickSource={require("./res/skip_hover.png")}
+            onClick={this._playNextVideo} />
+
+          <ViroButton
+            position={[-0.3, -0.4 ,-2]}
+            scale={[1, 1, 1]}
+            width={0.5}
+            height={0.5}
+            source={require("./res/icon_2D_hover.png")}
+            hoverSource={require("./res/icon_2D_hover.png")}
+            clickSource={require("./res/icon_2D_hover.png")} />
+
+          <ViroButton
+            position={[0.3, -0.4 ,-2]}
+            scale={[1, 1, 1]}
+            width={0.5}
+            height={0.5}
+            source={require("./res/icon_360.png")}
+            hoverSource={require("./res/icon_360_hover.png")}
+            clickSource={require("./res/icon_360_hover.png")}
+            onClick={this._launchTheatreScene} />
+
+        </ViroNode>
+    );
+  }
+
+  /**
+   * Renders either the play or pause icon depending on video state.
+   */
+  _renderPlayControl(){
+    if (this.state.videoPaused){
+      return (
+          <ViroButton
+              position={[0,0,-2]}
+              scale={[1, 1, 1]}
+              width={buttonSize}
+              height={buttonSize}
+              source={require("./res/play.png")}
+              hoverSource={require("./res/play_hover.png")}
+              clickSource={require("./res/play_hover.png")}
+              onClick={this._togglePauseVideo}/>
+      );
+    } else {
+      return (
+          <ViroButton
+              position={[0,0,-2]}
+              scale={[1, 1, 1]}
+              width={buttonSize}
+              height={buttonSize}
+              source={require("./res/pause.png")}
+              hoverSource={require("./res/pause_hover.png")}
+              clickSource={require("./res/pause_hover.png")}
+              onClick={this._togglePauseVideo}/>
+      );
+    }
+  }
+
+  _launchTheatreScene(){
+  }
+  _togglePauseVideo() {
+    this.setState({
+      videoPaused: !this.state.videoPaused,
+    })
+  }
+
+  /**
+   * Play the previous video by setting the videoIndex.
+   */
+  _playPreviousVideo(){
+    var currentVideo = this.state.videoIndex;
+    if (currentVideo - 1 > -1){
+      this.setState({
+        videoIndex: (currentVideo - 1),
+        videoPaused: false
+      });
+    }
+  }
+
+  /**
+   * Play the next video by setting the videoIndex.
+   */
+  _playNextVideo(){
+    var currentVideo = this.state.videoIndex;
+    if (currentVideo + 1 < videos.length){
+      this.setState({
+        videoIndex: (currentVideo + 1),
+        videoPaused: false
+      });
+    }
+  } 
+
+
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized} >
-        <ViroARImageMarker target={"targetOne"} >
+        {/* <ViroARImageMarker target={"targetOne"} >
           <ViroText text={this.state.latitude.toFixed(4)} scale={[0, 0.5, -1]} position={[0, 0, 0.1]} style={localStyles.helloWorldTextStyle} />
           <ViroText text={this.state.longitude.toFixed(4)} scale={[0, 0, -1]} position={[0, 0, 0.1]} style={localStyles.helloWorldTextStyle} />
-        </ViroARImageMarker>
-        <ViroFlexView style={{ flexDirection: 'row', padding: .1 }}
+        </ViroARImageMarker> */}
+        {/* <ViroFlexView style={{ flexDirection: 'row', padding: .1 }}
           width={5.0} height={5.0}
           position={[-5.0, 0.0, -2.0]}
           rotation={[0, 45, 0]} >
           <ViroImage source={require('../../../assets/guadalupe_360.jpg')} style={{ flex: .5 }} />
           <ViroImage source={require('../../../assets/guadalupe_360.jpg')} style={{ flex: .5 }} />
-        </ViroFlexView>
+        </ViroFlexView> */}
 
-        <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={localStyles.helloWorldTextStyle} />
-        <ViroText text={JSON.stringify(this.state.pos)} scale={[0.5, 0.5, 0.5]} position={[0, 4, -1]} style={localStyles.helloWorldTextStyle} />
+        {/* <ViroText text={this.state.text} scale={[.5, .5, .5]} position={[0, 0, -1]} style={localStyles.helloWorldTextStyle} /> */}
+        {/* <ViroText text={JSON.stringify(this.state.pos)} scale={[0.5, 0.5, 0.5]} position={[0, 4, -1]} style={localStyles.helloWorldTextStyle} /> */}
+        <ViroVideo ref={VIDEO_REF} source={videos[this.state.videoIndex]} volume={1.0}
+            position={[0, 3.9, -45]} scale={[44, 22, 1]} loop={this.state.loopVideo}
+            paused={this.state.videoPaused} />
+
+        {this._renderVideoControl()}
+
       </ViroARScene>
     );
   }
@@ -216,6 +379,19 @@ export default class Level1 extends Component {
 
 }
 
+
+ViroAnimations.registerAnimations({
+  fadeOut:{properties:{opacity: 0.0}, duration: 500},
+  fadeIn:{properties:{opacity: 1.0}, duration: 500},
+});
+
+ViroMaterials.createMaterials({
+  opaqueWhite: {
+    shininess: 2.0,
+    lightingModel: "Lambert",
+    diffuseColor: "#FFFFFF"
+  },
+});
 var localStyles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: 'Arial',

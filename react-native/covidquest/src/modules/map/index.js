@@ -594,7 +594,7 @@ export default class Map extends Component {
 
         <TouchableOpacity
           style={{ marginBottom: 20 }}
-          onPress={this._getExperienceButtonOnPress(THEATRE)}
+          onPress={this._getExperienceButtonOnPress(LEVEL_1)}
         >
           <Image
             style={{ width: 30, height: 30, marginStart: "81%" }}
