@@ -1,0 +1,259 @@
+<!--
+/* ----------------------------- *\
+//                               \\
+//  CovidQuest - Community Tool  \\
+// ----------------------------- \\
+//      Copyright (c) 2020       \\
+//      Kyle Derby MacInnis      \\
+// ----------------------------- \\
+// All Rights Reserved. Any Un-  \\
+// authorized disribution and/or \\
+// sale of this work is strictly \\
+// prohibited.                   \\
+\* ----------------------------- */
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <!-- Styles -->
+    <link rel='stylesheet' href='/stylesheets/style.css'>
+    <!-- Google Maps -->
+    <script src="https://maps.google.com/maps/api/js?libraries=geometry&key=AIzaSyBVaHZE8ok8r7pwEPLBTcJa4yuA-Bw3-OY&"></script>
+    <!-- Animation Libraries -->
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/dynamics.min.js"></script>
+    <!-- Custom Markers / Libraries -->
+    <script src="/javascripts/map/drawPolyline.js"></script>
+    <script src="/javascripts/map/userMarker.js"></script>
+    <script src="/javascripts/map/businessMarker.js"></script>
+    <script src="/javascripts/map/newsMarker.js"></script>
+    <script src="/javascripts/map/clusterMarker.js"></script>
+    <script src="/javascripts/map/pairMarkers.js"></script>
+    <script src="/javascripts/map/clusterMarkers.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1 style="padding-left:2em">
+            Welcome Agent
+            <span style="color:orange">
+                <%=user[0].agent_name%>&nbsp;
+            </span>
+            <span style="float:right; padding-right:2em;">  News: <span style="color:orange" id="newsCnt"></span>
+            </span>
+        </h1>
+    </div>
+    <div id="map"></div>
+    <button class="showDecoder" style="
+        position: fixed;
+        padding:0.3em;
+        left: 1em;
+        bottom: 4em;
+        width: 100px;
+        position: fixed;
+        left: 1em;
+        width: 100px;
+        border-color: slateblue;
+        background: #333;
+        color: white;
+   ">Decoder</button>
+    <button class="enterCode" style="
+        position: fixed;
+        padding:0.3em;
+        left: 1em;
+        bottom: 6em;
+        width: 100px;
+        position: fixed;
+        left: 1em;
+        width: 100px;
+        border-color: slateblue;
+        background: #333;
+        color: white;
+   ">Enter Code</button>
+    <button class="zoomCalgary" style="
+        position: fixed;
+        padding:0.3em;
+        left: 1em;
+        bottom: 9em;
+        width: 100px;
+        position: fixed;
+        left: 1em;
+        width: 100px;
+        border-color: slateblue;
+        background: #333;
+        color: white;
+   ">Headquarters</button>
+    <button class="zoomCanada" style="
+        position: fixed;
+        padding:0.3em;
+        left: 1em;
+        bottom: 11em;
+        width: 100px;
+        position: fixed;
+        left: 1em;
+        width: 100px;
+        border-color: slateblue;
+        background: #333;
+        color: white;
+   ">Overview</button>
+    <!-- MODALS  -->
+    <!-- Spy Modal -->
+    <div id="vgModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="height:350px;">
+            <img style="border-radius:50%;" height="300px" id="vgAvatar" />
+            <div id="vgName" style="
+              display: inline-block;
+              font-size: 8em;
+              line-height: 350px;
+              vertical-align: bottom;
+              height: 100%;
+              /* width: 100%; */
+              /* padding: 2em; */
+              margin-top: -5em;
+              padding: 0 1em 0em 40%;
+         "></div>
+            <div id="vgSkills" style="
+              /* margin-left: auto; */
+              /* margin-right: auto; */
+              text-align: center;
+              padding: 0em;
+              /* margin-bottom: 0em; */
+              display: block;
+         "></div>
+        </div>
+    </div>
+    <!-- Hideout Modal -->
+    <div id="busModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="height:350px;">
+            <img style="border-radius:50%;" height="300px" id="busAvatar" />
+            <div id="busType" style="
+              display: inline-block;
+              font-size: 4em;
+              line-height: 16em;
+              vertical-align: top;
+              height: 100%;
+              /* width: 100%; */
+              /* padding: 2em; */
+              margin-top: -5em;
+              padding: 0 1em 0em 20%;
+           "></div>
+        </div>
+    </div>
+    <!-- Hideout Modal -->
+    <div id="newsModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="height:350px;">
+            <table>
+                <td>
+                    <img style="border-radius:50%;float:left;" height="300px" id="newsAvatar" />
+                </td>
+                <td>
+                    <div style="float:right;">
+                        <h3 id="newsName"></h3>
+                        <br>
+                        <p id="newsType"></p>
+                    </div>
+                </td>
+            </table>
+        </div>
+        </table>
+    </div>
+    <!-- Code Modal (FUTURE)  -->
+    <div id="codeModal" class="modal">
+        <div class="modal-content" style="height:350px;">
+            <h2 style="margin:auto">
+                COMING SOON
+            </h2>
+        </div>
+    </div>
+    <!-- Decoder Modal (FUTURE)  -->
+    <div id="decodeModal" class="modal">
+        <div class="modal-content" style="height:350px;">
+            <h2 style="margin:auto">
+                COMING SOON
+            </h2>
+        </div>
+    </div>
+</body>
+<script>
+    // Open Hideout Info
+    function showHideoutModal(details, img) {
+        var modal = document.getElementById('busModal');
+
+        $('#busAvatar').attr('src', img);
+        $('#busType').html(details.type);
+        modal.style.display = "block ";
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none ";
+            }
+        }
+    };
+    // Open Hideout Info
+    function showNewsModal(details, img) {
+        var modal = document.getElementById('newsModal');
+
+        $('#newsAvatar').attr('src', img);
+        $('#newsType').html(details.type);
+        $('#newsName').html(details.name);
+        modal.style.display = "block ";
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none ";
+            }
+        }
+    };
+    // Open Spy Info
+    function showSpyModal(details, img) {
+        var modal = document.getElementById('vgModal');
+
+        $('#vgAvatar').attr('src', img);
+        $('#vgName').html(details.name);
+        $('#vgSkills').html(details.skills);
+        modal.style.display = "block ";
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none ";
+            }
+        }
+    };
+    // Open Spy Info
+    function showCodeModal(details, img) {
+        var modal = document.getElementById('codeModal');
+
+        $('#codeAvatar').attr('src', img);
+        modal.style.display = "block ";
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none ";
+            }
+        }
+    };
+    // Open Spy Info
+    function showDecodeModal(details, img) {
+        var modal = document.getElementById('decodeModal');
+
+        $('#decodeAvatar').attr('src', img);
+        modal.style.display = "block ";
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none ";
+            }
+        }
+    };
+</script>
+<script src="/javascripts/map/runMap.js"></script>
+
+</html>

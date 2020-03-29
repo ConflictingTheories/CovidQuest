@@ -1,0 +1,66 @@
+<!--
+/* ----------------------------- *\
+//                               \\
+//  CovidQuest - Community Tool  \\
+// ----------------------------- \\
+//      Copyright (c) 2020       \\
+//      Kyle Derby MacInnis      \\
+// ----------------------------- \\
+// All Rights Reserved. Any Un-  \\
+// authorized disribution and/or \\
+// sale of this work is strictly \\
+// prohibited.                   \\
+\* ----------------------------- */
+
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title%>
+    </title>
+    <!-- Styles -->
+    <link rel='stylesheet' href='/stylesheets/style.css'> \
+    <!-- Animation Libraries -->
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/dynamics.min.js"></script>
+</head>
+
+<body>
+    <div style="text-align:center; width:100%">
+        <h1 style="text-align:center">
+            AGENT LOGIN
+        </h1>
+        <h3 style="color:red">
+            <%=message%>
+        </h3>
+        <form class="accessForm" method="POST" style="padding:1em; margin:auto;text-align:center;">
+            <label>
+                Code Name
+            </label>
+            <input name="code_name" type="text">
+            <br>
+            <label>
+                Pass Phrase
+            </label>
+            <input name="pass_phrase" type="password">
+            <br>
+            <label>
+                Access Code
+            </label>
+            <input name="access_code" type="password">
+            <br>
+            <label>
+                Secret
+            </label>
+            <input name="secret" type="color">
+            <br><br>
+            <input type="submit" placeholder="submit" value="submit">
+        </form>
+    </div>
+</body>
+<script>
+</script>
+
+</html>
