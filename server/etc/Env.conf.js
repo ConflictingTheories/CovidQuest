@@ -15,11 +15,9 @@
 //        ENVIRONMENT CONF        \\
 \* ------------------------------ */
 
-// nzt0-portal.kderbyma.com (PORTAL ACCESS POINT)
-
 module.exports = {
-    DB_HOST: "162.246.156.83",
-    DB_USER: "spy-access",
+    DB_HOST: "127.0.0.1",
+    DB_USER: "api-access",
     DB_PASS: "123456",
     DB_NAME: "covidquest",
     AWS_APIKEY: "",
