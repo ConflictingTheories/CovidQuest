@@ -19,6 +19,10 @@ import {
 } from 'react-native';
 import { styles } from "../../style";
 
+import { GiftedChat } from 'react-native-gifted-chat'
+
+import DeviceInfo from 'react-native-device-info';
+
 import io from "socket.io-client";
 
 export default class Chat extends Component {
@@ -28,65 +32,75 @@ export default class Chat extends Component {
     this.state = {
        chatMessage: "",
        chatMessages: [],
-       levelSelect : "",
+       deviceId: '',
+       userId: 0,
+       messageId: 0,
+       name: '',
+       avatar: 'https://covid-19.kderbyma.com/images/bioalpha.png'     
     };
  
-    this._getExperienceSelector = this._getExperienceSelector.bind(this);
-    this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(this);
+    this._getExperienceSelector = this._displayChat.bind(this);
   }
 
 
   componentDidMount(){
+    this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: 'Hello Citizen - Welcome to CovidQuest. Please make yourself at home. Some other may be on here.',
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'Covid Quest',
+            avatar: 'https://covid-19.kderbyma.com/images/bioalpha.png',
+          },
+        },
+      ],
+      deviceId: DeviceInfo.getUniqueId(),
+      userId: Math.round(Math.random()*100000000 % 100000000)
+    })
+    
     this.socket = io("http://covid-19.kderbyma.com:3000");
     this.socket.on("chat message", msg => {
           this.setState({ chatMessages: [...this.state.chatMessages, msg]   
      });
   });
   }
+  
+  onSend(messages = []) {
+
+    messages.map((x)=>{
+      console.log("Sending...",x);
+      this.socket.emit('chat message', x);
+    });
+    
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages),
+    }))
+  }
 
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
   // if you are building a specific type of experience.
   render() {
-      return this._getExperienceSelector();
-  }
-
-  submitChatMessage() {
-    console.log("Sending...",this.state.chatMessage);
-    this.socket.emit('chat message', this.state.chatMessage);
-    this.setState({chatMessage: ''});
+      return this._displayChat();
   }
 
   // Presents the user with a choice of an AR or VR experience
-  _getExperienceSelector() {
+  _displayChat() {
     const chatMessages = this.state.chatMessages.map(chatMessage => (
       <Text style={{borderWidth: 2, top: 500}}>{chatMessage}</Text>
     ));
 
     return (
-      <View style={styles.container}>
-        {chatMessages}
-        <TextInput
-          style={{height: 40, borderWidth: 2, top: 600}}
-          autoCorrect={false}
-          value={this.state.chatMessage}
-          onSubmitEditing={() => this.submitChatMessage()}
-          onChangeText={chatMessage => {
-            this.setState({chatMessage});
-          }}
-        />
-      </View>);
+      <GiftedChat
+        messages={this.state.chatMessages}
+        onSend={messages => this.onSend(messages)}
+        user={{
+          _id: this.state.userId,
+        }}
+      />);
   }
-
-  // This function returns an anonymous/lambda function to be used
-  // by the experience selector buttons
-  _getExperienceButtonOnPress(levelSelect) {
-    return () => {
-      this.setState({
-        levelSelect : levelSelect
-      })
-    }
-  }
-
 }
 
 var localStyles = StyleSheet.create({
