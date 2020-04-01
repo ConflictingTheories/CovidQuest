@@ -1,9 +1,6 @@
 
 'use strict';
 
-/**
- * Pull in all imports required for the controls within this scene.
- */
 import React, { Component } from 'react';
 
 import {StyleSheet} from 'react-native';
@@ -24,22 +21,13 @@ import {
 
 var createReactClass = require('create-react-class');
 
-/**
- * Set all the image and asset references required in this scene.
- */
 var buttonSize = 0.25;
 var VIDEO_REF = "videoref";
 var VideoControlRef = "VideoControlRef";
 
-/**
- * Several references to video sources (wether it be local or on AWS) stored in an array.
- */
-var videos = [
-  require('../../../assets/videos/what-is-c19.mp4'),
-  require('../../../assets/videos/handwashing.mp4'),
-  require('../../../assets/videos/social-distancing.mp4'),
-  require('../../../assets/videos/c19-been-exposed.mp4'),
-  require('../../../assets/videos/c19-if-you-have-it.mp4')
+ // TODO --- GET A LIST OF ALL "PREVIOUSLY" WATCHED VIDEOS
+var videos = [ 
+  {uri:'https://covidquest-public.s3.ca-central-1.amazonaws.com/c19-if-you-have-it.mp4'},
 ];
 
 var ViroTheatre = createReactClass({
@@ -53,9 +41,6 @@ var ViroTheatre = createReactClass({
     }
   },
 
-  /**
-   * Renders a scene that contains a 360 video and Video Controls.
-   */
   render: function() {
     return (
         <ViroScene onClick={this._onVideoTapped} reticleEnabled={this.state.videoControlsAnimation=="fadeIn"}>
@@ -83,10 +68,7 @@ var ViroTheatre = createReactClass({
       runAnimation:true,
     });
   },
-  /**
-   * Render a set of Video UI Controls. This includes (in the order displayed from left to right):
-   * Restart, Previous Video, Play/Pause, Next Video, Volume.
-   */
+
   _renderVideoControl(){
     return(
         <ViroNode position={[0,-0.8,0]} opacity={1.0}
@@ -141,9 +123,6 @@ var ViroTheatre = createReactClass({
     );
   },
 
-  /**
-   * Renders either the play or pause icon depending on video state.
-   */
   _renderPlayControl(){
     if (this.state.videoPaused){
       return (
@@ -181,9 +160,6 @@ var ViroTheatre = createReactClass({
     })
   },
 
-  /**
-   * Play the previous video by setting the videoIndex.
-   */
   _playPreviousVideo(){
     var currentVideo = this.state.videoIndex;
     if (currentVideo - 1 > -1){
@@ -194,9 +170,6 @@ var ViroTheatre = createReactClass({
     }
   },
 
-  /**
-   * Play the next video by setting the videoIndex.
-   */
   _playNextVideo(){
     var currentVideo = this.state.videoIndex;
     if (currentVideo + 1 < videos.length){

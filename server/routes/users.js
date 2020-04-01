@@ -24,8 +24,14 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 // False
-router.get('/secret', function(req, res, next) {
-    res.send('<b>Sorry , not here :)<br>');
+router.get('/:secret/:lat/:lng', function(req, res, next) {
+    let secret = req.params.secret;
+    let lat = req.params.lat;
+    let lng = req.params.lng;
+
+    console.log({user:{location:{lat,lng},secret}});
+    
+    res.json({msg:"success"});
 });
 
 module.exports = router;

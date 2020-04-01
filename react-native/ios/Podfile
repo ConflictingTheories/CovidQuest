@@ -40,6 +40,8 @@ target 'CovidQuest' do
     pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
     pod 'Google-Mobile-Ads-SDK'
 
+    pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   end
   
   post_install do |installer|

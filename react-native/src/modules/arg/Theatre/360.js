@@ -32,11 +32,7 @@ var VIDEO_REF = "videoref";
  * Several references to video sources (wether it be local or on AWS) stored in an array.
  */
 var videos = [
-  require('../../../assets/videos/what-is-c19.mp4'),
-  require('../../../assets/videos/handwashing.mp4'),
-  require('../../../assets/videos/social-distancing.mp4'),
-  require('../../../assets/videos/c19-been-exposed.mp4'),
-  require('../../../assets/videos/c19-if-you-have-it.mp4')
+  {uri:'https://covidquest-public.s3.ca-central-1.amazonaws.com/c19-if-you-have-it.mp4'},
 ];
 
 var Viro360Theatre = createReactClass({

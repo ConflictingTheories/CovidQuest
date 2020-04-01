@@ -1,7 +1,8 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { StyleSheet, PermissionsAndroid, Platform, AsyncStorage,DeviceEventEmitter } from 'react-native';
+import { StyleSheet, PermissionsAndroid, Platform,DeviceEventEmitter } from 'react-native';
+import {AsyncStorage} from '@react-native-community/async-storage';
 import RNSimpleCompass from 'react-native-simple-compass';
 import ReactNativeHeading from 'react-native-heading';
 import {
@@ -24,11 +25,7 @@ var VIDEO_REF = "videoref";
 var VideoControlRef = "VideoControlRef";
 
 var videos = [
-  require('../../../assets/videos/what-is-c19.mp4'),
-  require('../../../assets/videos/handwashing.mp4'),
-  require('../../../assets/videos/social-distancing.mp4'),
-  require('../../../assets/videos/c19-been-exposed.mp4'),
-  require('../../../assets/videos/c19-if-you-have-it.mp4')
+ 'https://covidquest-public.s3.ca-central-1.amazonaws.com/what-is-c19.mp4',
 ];
 
 export default class Level1 extends Component {

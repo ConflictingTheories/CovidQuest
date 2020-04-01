@@ -33,6 +33,9 @@ var UNSET = "UNSET";
 var MEASURE = "MEASURE";
 var LEVEL_1 = "LEVEL_1";
 var LEVEL_2 = "LEVEL_2";
+var LEVEL_3 = "LEVEL_3";
+var LEVEL_4 = "LEVEL_4";
+var LEVEL_5 = "LEVEL_5";
 var THEATRE = "THEATRE";
 
 // This determines which type of experience to launch in, or UNSET, if the user should
@@ -63,8 +66,14 @@ export default class Arg extends Component {
       return this._getARNavigator(0);
     } else if (this.state.levelSelect == LEVEL_2) {
       return this._getARNavigator(1);
+    } else if (this.state.levelSelect == LEVEL_3) {
+      return this._getARNavigator(2);
+    } else if (this.state.levelSelect == LEVEL_4) {
+      return this._getARNavigator(3);
+    } else if (this.state.levelSelect == LEVEL_5) {
+      return this._getARNavigator(4);
     } else if (this.state.levelSelect == THEATRE) {
-      return this._getARNavigator(2, true);
+      return this._getARNavigator(5, true);
     }
   }
 
@@ -142,6 +151,9 @@ export default class Arg extends Component {
     const sceneSelect = [
       require('./Level1'),
       require('./Level2'),
+      require('./Level3'),
+      require('./Level4'),
+      require('./Level5'),
       require('./Theatre'),
     ];
     return sceneSelect[i];

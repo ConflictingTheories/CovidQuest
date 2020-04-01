@@ -31,6 +31,9 @@ import { styles as mapStyles } from "../../style"
 const UNSET = "UNSET";
 const LEVEL_1 = "LEVEL_1";
 const LEVEL_2 = "LEVEL_2";
+const LEVEL_3 = "LEVEL_3";
+const LEVEL_4 = "LEVEL_4";
+const LEVEL_5 = "LEVEL_5";
 const THEATRE = "THEATRE";
 
 
@@ -237,7 +240,7 @@ const challengeList = [
     name: "Level 3",
     date: new Date().toDateString(),
     difficulty: "⍟⍟⍟⍟",
-    level: THEATRE,
+    level: LEVEL_3,
     latitude: 51.001,
     longitude: -114.103
   },
@@ -246,7 +249,7 @@ const challengeList = [
     name: "Level 4",
     date: new Date().toDateString(),
     difficulty: "⍟⍟⍟",
-    level: LEVEL_1,
+    level: LEVEL_4,
     latitude: 51.231,
     longitude: -114.113
   },
@@ -255,64 +258,10 @@ const challengeList = [
     name: "Level 5",
     date: new Date().toDateString(),
     difficulty: "⍟⍟⍟",
-    level: LEVEL_2,
+    level: LEVEL_5,
     latitude: 51.331,
     longitude: -114.313
-  },
-  {
-    id: "LVL6",
-    name: "Level 6",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: LEVEL_1,
-    latitude: 51.251,
-    longitude: -114.193
-  },
-  {
-    id: "LVL7",
-    name: "Level 7",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: THEATRE,
-    latitude: 51.271,
-    longitude: -114.123
-  },
-  {
-    id: "LVL8",
-    name: "Level 8",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: LEVEL_1,
-    latitude: 51.231,
-    longitude: -114.413
-  },
-  {
-    id: "LVL9",
-    name: "Level 9",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: LEVEL_2,
-    latitude: 51.631,
-    longitude: -114.613
-  },
-  {
-    id: "LVL10",
-    name: "Level 10",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: THEATRE,
-    latitude: 51.731,
-    longitude: -114.913
-  },
-  {
-    id: "LVL11",
-    name: "Level 11",
-    date: new Date().toDateString(),
-    difficulty: "⍟⍟⍟",
-    level: THEATRE,
-    latitude: 51.231,
-    longitude: -114.113
-  },
+  }
 ]
 
 const localStyle = {
@@ -477,8 +426,14 @@ export default class Map extends Component {
       return this._getARNavigator(0)
     } else if (this.state.levelSelect == LEVEL_2) {
       return this._getARNavigator(1)
+    } else if (this.state.levelSelect == LEVEL_3) {
+      return this._getARNavigator(2)
+    } else if (this.state.levelSelect == LEVEL_4) {
+      return this._getARNavigator(3)
+    } else if (this.state.levelSelect == LEVEL_5) {
+      return this._getARNavigator(4)
     } else if (this.state.levelSelect == THEATRE) {
-      return this._getARNavigator(2, true)
+      return this._getARNavigator(5, true)
     }
   }
 
@@ -631,6 +586,9 @@ export default class Map extends Component {
     const sceneSelect = [
       require('../arg/Level1'),
       require('../arg/Level2'),
+      require('../arg/Level3'),
+      require('../arg/Level4'),
+      require('../arg/Level5'),
       require('../arg/Theatre'),
     ];
     return sceneSelect[i];
